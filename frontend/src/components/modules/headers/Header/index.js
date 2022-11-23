@@ -44,7 +44,7 @@ export default function Header({ logo, exit }) {
                   textTransform: 'none',
                   color: 'var(--color-primary)',
                 }}>
-                Опросы
+                Новости
               </Button>
             </Link>
             <Link to='/panel' style={{ height: 'fit-content' }}>
