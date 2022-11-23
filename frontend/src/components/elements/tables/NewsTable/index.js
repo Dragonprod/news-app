@@ -32,60 +32,19 @@ import {
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
-import AppButton from '../../buttons/AppButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Chip from '@mui/material/Chip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
 import EditSurveyModal from '../../modals/EditSurveyModal';
 
 const rows = [
   {
-    date: '30.06.2022',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: true,
-  },
-  {
-    date: '30.06.2021',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2020',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2019',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2018',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
-  },
-  {
-    date: '30.06.2017',
-    name: 'Шаблоны программных платформ языка Джава Матчин В.Т. (Старший преподаватель, ИиППО)',
-    category: 'Транспорт',
-    answered: 231882,
-    results: 'results.csv',
-    isOpen: false,
+    id: 0,
+    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
+    title: 'Обогреваемые остановки наземного транспорта',
+    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
+    commentsAmount: 10,
+    likesAmount: 10349,
+    date: '23.11.2022',
   },
 ];
 
@@ -97,34 +56,40 @@ const headCells = [
     label: 'Дата создания',
   },
   {
-    id: 'name',
+    id: 'title',
     numeric: false,
     disablePadding: false,
-    label: 'Название',
+    label: 'Заголовок',
   },
   {
-    id: 'category',
+    id: 'text',
     numeric: false,
     disablePadding: false,
-    label: 'Категория',
+    label: 'Описание',
   },
   {
-    id: 'answered',
+    id: 'tags',
     numeric: false,
     disablePadding: false,
-    label: 'Ответило',
+    label: 'Теги',
   },
   {
-    id: 'results',
+    id: 'attachments',
     numeric: false,
     disablePadding: false,
-    label: 'Результаты',
+    label: 'Вложения',
   },
   {
-    id: 'status',
+    id: 'comments',
     numeric: false,
     disablePadding: false,
-    label: 'Статус',
+    label: 'Комментарии',
+  },
+  {
+    id: 'likes',
+    numeric: false,
+    disablePadding: false,
+    label: 'Оценили',
   },
   {
     id: 'options',
@@ -243,7 +208,6 @@ export default function AllRecordBooksTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openOptionsMenu = Boolean(anchorEl);
-  const [status, setStatus] = React.useState('');
   const [category, setCategory] = React.useState('');
 
   const [openAddSurveyModal, setOpenAddSurveyModal] = React.useState(false);
@@ -253,10 +217,6 @@ export default function AllRecordBooksTable() {
   const [openEditSurveyModal, setOpenEditSurveyModal] = React.useState(false);
   const handleOpenEditSurveyModal = () => setOpenEditSurveyModal(true);
   const handleCloseEditSurveyModal = () => setOpenEditSurveyModal(false);
-
-  const handleChangeStatus = event => {
-    setStatus(event.target.value);
-  };
 
   const handleChangeCategory = event => {
     setCategory(event.target.value);
@@ -333,19 +293,8 @@ export default function AllRecordBooksTable() {
               gap: '16px',
               alignItems: 'center',
               display: 'grid',
-              gridTemplateColumns: '180px 180px 1fr auto',
+              gridTemplateColumns: '180px 1fr',
             }}>
-            <FormControl>
-              <InputLabel>Статус</InputLabel>
-              <Select
-                id='demo-simple-select'
-                value={status}
-                label='Статус'
-                onChange={handleChangeStatus}>
-                <MenuItem value={10}>Открыт</MenuItem>
-                <MenuItem value={20}>Закрыт</MenuItem>
-              </Select>
-            </FormControl>
             <FormControl>
               <InputLabel>Категория</InputLabel>
               <Select
@@ -370,12 +319,6 @@ export default function AllRecordBooksTable() {
               }}
               variant='outlined'
             />
-            <AppButton
-              onClick={handleOpenAddSurveyModal}
-              startIcon={<AddCircleOutlineIcon />}
-              sx={{ height: 'fit-content', p: 1.5 }}>
-              Добавить
-            </AppButton>
           </Stack>
           <EnhancedTableToolbar numSelected={selected.length} />
           <TableContainer>
@@ -422,13 +365,37 @@ export default function AllRecordBooksTable() {
                           padding='none'>
                           {row.date}
                         </TableCell>
-                        <TableCell sx={{ maxWidth: '400px' }}>
-                          {row.name}
+                        <TableCell
+                          sx={{
+                            maxWidth: '150px',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                          }}>
+                          {row.title}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            maxWidth: '200px',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                          }}>
+                          {row.text}
                         </TableCell>
                         <TableCell>
-                          <Chip label={row.category} />
+                          <div
+                            style={{
+                              maxWidth: '200px',
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              gap: '8px',
+                            }}>
+                            {row.categories.map(category => (
+                              <Chip key={category.name} label={category.name} />
+                            ))}
+                          </div>
                         </TableCell>
-                        <TableCell>{row.answered} человек</TableCell>
                         <TableCell>
                           <Button
                             onClick={e => e.stopPropagation()}
@@ -438,10 +405,11 @@ export default function AllRecordBooksTable() {
                               textTransform: 'none',
                               color: 'var(--color-primary)',
                             }}>
-                            Скачать
+                            6 фото
                           </Button>
                         </TableCell>
-                        <TableCell>{row.isOpen}</TableCell>
+                        <TableCell>{row.commentsAmount} комментариев</TableCell>
+                        <TableCell>{row.likesAmount} человек</TableCell>
                         <TableCell>
                           <IconButton
                             onClick={e => {
