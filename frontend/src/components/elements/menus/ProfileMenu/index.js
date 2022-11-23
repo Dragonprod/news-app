@@ -90,10 +90,6 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
           <Point>Почта</Point>
           <Data>ivanov.ivan@mail.ru</Data>
         </Stack>
-        <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
-          <Point>Баллы</Point>
-          <Data>100</Data>
-        </Stack>
       </Stack>
       <AppButton onClick={handleLogout} sx={{ p: 1.5, marginTop: '30px' }}>
         Выйти из системы
