@@ -45,6 +45,48 @@ const rows = [
     commentsAmount: 10,
     likesAmount: 10349,
     date: '23.11.2022',
+    attachments: [
+      { url: 'img.png' },
+      { url: 'img2.png' },
+      { url: 'img3.png' },
+      { url: 'img4.png' },
+      { url: 'img5.png' },
+      { url: 'img6.png' },
+    ],
+  },
+  {
+    id: 1,
+    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
+    title: 'Обогреваемые остановки наземного транспорта',
+    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
+    commentsAmount: 10,
+    likesAmount: 10349,
+    date: '23.11.2021',
+    attachments: [
+      { url: 'img.png' },
+      { url: 'img2.png' },
+      { url: 'img3.png' },
+      { url: 'img4.png' },
+      { url: 'img5.png' },
+      { url: 'img6.png' },
+    ],
+  },
+  {
+    id: 2,
+    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
+    title: 'Обогреваемые остановки наземного транспорта',
+    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
+    commentsAmount: 10,
+    likesAmount: 10349,
+    date: '23.11.2020',
+    attachments: [
+      { url: 'img.png' },
+      { url: 'img2.png' },
+      { url: 'img3.png' },
+      { url: 'img4.png' },
+      { url: 'img5.png' },
+      { url: 'img6.png' },
+    ],
   },
 ];
 
@@ -200,7 +242,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function AllRecordBooksTable() {
+export default function NewsTable() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('subject');
   const [selected, setSelected] = React.useState([]);
@@ -405,7 +447,7 @@ export default function AllRecordBooksTable() {
                               textTransform: 'none',
                               color: 'var(--color-primary)',
                             }}>
-                            6 фото
+                            {row.attachments.length} фото
                           </Button>
                         </TableCell>
                         <TableCell>{row.commentsAmount} комментариев</TableCell>
