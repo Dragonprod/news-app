@@ -1,6 +1,7 @@
 import { Box, Stack } from '@mui/system';
 import React from 'react';
 import TabButton from '../../elements/buttons/TabButton';
+import NewsDrawer from '../../elements/drawer/NewsDrawer';
 import NewsGroup from '../../modules/groups/NewsGroup';
 
 const testCategories = [
@@ -40,28 +41,33 @@ const testCategories = [
 ];
 
 export default function NewsLayout() {
-  return (
-    <Stack sx={{ gap: '32px', m: '64px auto', maxWidth: 'var(--max-width)' }}>
-      <Stack
-        direction='row'
-        sx={{
-          gap: '32px',
-          m: '0 auto',
-          maxWidth: '100%',
-          overflowX: 'auto',
-          pb: 1,
+  const [state, setState] = React.useState(false);
 
-          '::-webkit-scrollbar': {
-            display: 'none',
-          },
-        }}>
-        {testCategories.map(category => (
-          <TabButton key={category.name} sx={{ flexShrink: 0 }}>
-            {category.name}
-          </TabButton>
-        ))}
+  return (
+    <>
+      <Stack sx={{ gap: '32px', m: '64px auto', maxWidth: 'var(--max-width)' }}>
+        <Stack
+          direction='row'
+          sx={{
+            gap: '32px',
+            m: '0 auto',
+            maxWidth: '100%',
+            overflowX: 'auto',
+            pb: 1,
+
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
+          }}>
+          {testCategories.map(category => (
+            <TabButton key={category.name} sx={{ flexShrink: 0 }}>
+              {category.name}
+            </TabButton>
+          ))}
+        </Stack>
+        <NewsGroup />
       </Stack>
-      <NewsGroup />
-    </Stack>
+      <NewsDrawer open={state} onClose={() => setState(false)} />
+    </>
   );
 }

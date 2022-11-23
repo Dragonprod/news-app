@@ -4,9 +4,9 @@ import React from 'react';
 import TagChip from '../../chips/TagChip';
 import BaseDrawer from '../BaseDrawer';
 
-export default function NewsDrawer({ anchor, open, onClose }) {
+export default function NewsDrawer({ open, onClose }) {
   return (
-    <BaseDrawer anchor={anchor} open={open} onClose={onClose}>
+    <BaseDrawer open={open} onClose={onClose}>
       <h2>Обогреваемые остановки наземного транспорта</h2>
       <Stack>
         <CardMedia />

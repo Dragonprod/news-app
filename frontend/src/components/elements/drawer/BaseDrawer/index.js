@@ -1,9 +1,9 @@
 import { Drawer } from '@mui/material';
 import React from 'react';
 
-export default function BaseDrawer({ children, anchor, open, onClose }) {
+export default function BaseDrawer({ children, open, onClose }) {
   return (
-    <Drawer anchor={anchor} open={open} onClose={onClose}>
+    <Drawer anchor='right' open={open} onClose={onClose}>
       {children}
     </Drawer>
   );
