@@ -9,16 +9,27 @@ export default function NewsDrawer({ open, onClose }) {
     <BaseDrawer open={open} onClose={onClose}>
       <h2>Обогреваемые остановки наземного транспорта</h2>
       <Stack>
-        <CardMedia />
+        <CardMedia
+          component='img'
+          height='140'
+          image='/static/images/cards/contemplative-reptile.jpg'
+          alt='green iguana'
+        />
         <Stack>
           {['a', 'b'].map(img => (
-            <CardMedia />
+            <CardMedia
+              key={img}
+              component='img'
+              height='140'
+              image='/static/images/cards/contemplative-reptile.jpg'
+              alt='green iguana'
+            />
           ))}
         </Stack>
       </Stack>
       <Stack>
         {['a', 'b'].map(img => (
-          <TagChip />
+          <TagChip key={img} />
         ))}
       </Stack>
       <div>
@@ -36,7 +47,7 @@ export default function NewsDrawer({ open, onClose }) {
       <h2>Комментарии</h2>
       <Stack>
         {['a', 'b'].map(img => (
-          <div>comment</div>
+          <div key={img}>comment</div>
         ))}
       </Stack>
     </BaseDrawer>
