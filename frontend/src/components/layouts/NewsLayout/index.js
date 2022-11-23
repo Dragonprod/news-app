@@ -47,7 +47,7 @@ export default function NewsLayout() {
         sx={{
           gap: '32px',
           m: '0 auto',
-          maxWidth: 'var(--max-width)',
+          maxWidth: '100%',
           overflowX: 'auto',
           pb: 1,
 
