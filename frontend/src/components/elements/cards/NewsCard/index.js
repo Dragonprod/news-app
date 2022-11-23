@@ -23,49 +23,38 @@ const Text = styled(Typography)({
   color: '#25222C',
 });
 
-export default function NewsCard() {
+export default function NewsCard({ news }) {
   return (
     <Paper elevation={0} sx={{ borderRadius: '16px' }}>
       <Stack direction='row' sx={{ gap: '12px', m: 2 }}>
-        <Chip
-          label='Политика'
-          sx={{
-            color: '#fff',
-            background: 'var(--color-primary)',
-            fontFamily: 'inherit',
-            flexShrink: 0,
-          }}
-        />
-        <Chip
-          label='Экономика'
-          sx={{
-            color: '#fff',
-            background: 'var(--color-primary)',
-            fontFamily: 'inherit',
-            flexShrink: 0,
-          }}
-        />
+        {news.categories.map(category => (
+          <Chip
+            label={category.name}
+            sx={{
+              color: '#fff',
+              background: 'var(--color-primary)',
+              fontFamily: 'inherit',
+              flexShrink: 0,
+            }}
+          />
+        ))}
       </Stack>
       <Stack sx={{ gap: '24px', margin: '0 16px 24px' }}>
-        <Title>Обогреваемые остановки наземного транспорта</Title>
-        <Text>
-          За последние 7 лет я создал самый передовой в мире разговорный ИИ с
-          открытым доменом для Replika - чат-бота №1 в США с более чем 10
-          миллионами пользователей.
-        </Text>
+        <Title>{news.title}</Title>
+        <Text>{news.text}</Text>
       </Stack>
       <Stack direction='row' justifyContent='space-between'>
         <Stack direction='row' alignItems='center' sx={{ gap: '24px', m: 2 }}>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
             <ChatBubbleOutlineIcon />
-            10
+            {news.commentsAmount}
           </Stack>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
             <FavoriteBorderIcon />
-            10123
+            {news.likesAmount}
           </Stack>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
-            23.11.22
+            {news.date}
           </Stack>
         </Stack>
         <Stack direction='row' alignItems='center' sx={{ gap: '24px' }}>
