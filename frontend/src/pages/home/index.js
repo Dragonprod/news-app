@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AppLayout from '../../components/layouts/AppLayout';
-import SurveysLayout from '../../components/layouts/SurveysLayout';
+import NewsLayout from '../../components/layouts/NewsLayout';
 
 export default function Home() {
   const [name, setName] = useState('');
@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <AppLayout>
-      <SurveysLayout />
+      <NewsLayout />
     </AppLayout>
   );
 }

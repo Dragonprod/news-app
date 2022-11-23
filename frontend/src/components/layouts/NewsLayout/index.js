@@ -39,7 +39,7 @@ const testCategories = [
   },
 ];
 
-export default function SurveysLayout() {
+export default function NewsLayout() {
   return (
     <Stack sx={{ gap: '32px', m: '64px auto', maxWidth: 'var(--max-width)' }}>
       <Stack
