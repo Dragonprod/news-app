@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-export default function TabButton({ children, onClick, active, ...props }) {
+export default function TabButton({ children, onClick, active, sx, ...props }) {
   return (
     <Button
       variant='outlined'
@@ -23,6 +23,8 @@ export default function TabButton({ children, onClick, active, ...props }) {
             ? 'var(--color-primary-acc2)'
             : 'var(--color-primary-acc1)',
         },
+
+        ...sx,
       }}
       {...props}>
       {children}
