@@ -35,7 +35,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import AppButton from '../../buttons/AppButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Chip from '@mui/material/Chip';
-import StatusChip from './StatusChip';
 import AddSurveyModal from '../../modals/AddSurveyModal';
 import EditSurveyModal from '../../modals/EditSurveyModal';
 
@@ -442,9 +441,7 @@ export default function AllRecordBooksTable() {
                             Скачать
                           </Button>
                         </TableCell>
-                        <TableCell>
-                          <StatusChip isOpen={row.isOpen} />
-                        </TableCell>
+                        <TableCell>{row.isOpen}</TableCell>
                         <TableCell>
                           <IconButton
                             onClick={e => {
