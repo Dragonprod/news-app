@@ -57,7 +57,7 @@ export default function SignUp() {
               lineHeight: '60px',
               color: '#fff',
             }}>
-            Серверная часть веб-приложения “Опросы”
+            Серверная часть веб-приложения «Новостной агрегатор»
           </Typography>
         </Stack>
       </Box>
