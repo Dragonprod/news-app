@@ -6,6 +6,7 @@ import { Stack } from '@mui/system';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import TagChip from '../../chips/TagChip';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -34,16 +35,7 @@ export default function NewsCard({ news }) {
     <Paper elevation={0} sx={{ borderRadius: '16px' }}>
       <Stack direction='row' sx={{ gap: '12px', m: 2 }}>
         {news.categories.map(category => (
-          <Chip
-            key={category.name}
-            label={category.name}
-            sx={{
-              color: '#fff',
-              background: 'var(--color-primary)',
-              fontFamily: 'inherit',
-              flexShrink: 0,
-            }}
-          />
+          <TagChip key={category.name} label={category.name} />
         ))}
       </Stack>
       <Stack sx={{ gap: '24px', margin: '0 16px 24px' }}>
