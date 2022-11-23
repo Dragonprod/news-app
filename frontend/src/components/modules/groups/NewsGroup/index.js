@@ -1,6 +1,6 @@
 import { Stack } from '@mui/system';
 import React from 'react';
-import SurveyCard from '../../../elements/cards/SurveyCard';
+import NewsCard from '../../../elements/cards/NewsCard';
 
 export default function NewsGroup() {
   return (
@@ -8,16 +8,7 @@ export default function NewsGroup() {
       sx={{
         gap: '32px',
       }}>
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
-      <SurveyCard />
+      <NewsCard />
     </Stack>
   );
 }

@@ -22,7 +22,7 @@ const Title = styled(Typography)({
   color: '#2B2B2C',
 });
 
-export default function SurveyCard() {
+export default function NewsCard() {
   return (
     <Paper
       elevation={0}
