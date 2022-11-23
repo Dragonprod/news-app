@@ -1,5 +1,6 @@
-import { Box, Stack } from '@mui/system';
-import React from 'react';
+import { Stack } from '@mui/system';
+import React, { useContext } from 'react';
+import { MainContext } from '../../../context/MainContextProvider';
 import TabButton from '../../elements/buttons/TabButton';
 import NewsDrawer from '../../elements/drawer/NewsDrawer';
 import NewsGroup from '../../modules/groups/NewsGroup';
@@ -41,7 +42,7 @@ const testCategories = [
 ];
 
 export default function NewsLayout() {
-  const [state, setState] = React.useState(false);
+  const { isNewsDrawerOpen, setIsNewsDrawerOpen } = useContext(MainContext);
 
   return (
     <>
@@ -67,7 +68,10 @@ export default function NewsLayout() {
         </Stack>
         <NewsGroup />
       </Stack>
-      <NewsDrawer open={state} onClose={() => setState(false)} />
+      <NewsDrawer
+        open={isNewsDrawerOpen}
+        onClose={() => setIsNewsDrawerOpen(false)}
+      />
     </>
   );
 }

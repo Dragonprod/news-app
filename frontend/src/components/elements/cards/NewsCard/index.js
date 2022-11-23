@@ -1,5 +1,5 @@
-import { Button, Chip, Paper, Typography } from '@mui/material';
-import React from 'react';
+import { Button, Paper, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
 import AppButton from '../../buttons/AppButton';
 import { styled } from '@mui/material/styles';
 import { Stack } from '@mui/system';
@@ -7,6 +7,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagChip from '../../chips/TagChip';
+import { MainContext } from '../../../../context/MainContextProvider';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -31,6 +32,11 @@ const Text = styled(Typography)({
 });
 
 export default function NewsCard({ news }) {
+  const { isNewsDrawerOpen, setIsNewsDrawerOpen } = useContext(MainContext);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLike = () => setIsLiked(prev => !prev);
+
   return (
     <Paper elevation={0} sx={{ borderRadius: '16px' }}>
       <Stack direction='row' sx={{ gap: '12px', m: 2 }}>
@@ -58,7 +64,8 @@ export default function NewsCard({ news }) {
         </Stack>
         <Stack direction='row' alignItems='center' sx={{ gap: '24px' }}>
           <Button
-            startIcon={<FavoriteBorderIcon />}
+            onClick={handleLike}
+            startIcon={isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             sx={{
               color: 'var(--color-primary)',
               textTransform: 'none',
@@ -66,7 +73,11 @@ export default function NewsCard({ news }) {
             }}>
             Оценить
           </Button>
-          <AppButton sx={{ borderRadius: '16px 0', p: 2 }}>Подробнее</AppButton>
+          <AppButton
+            sx={{ borderRadius: '16px 0', p: 2 }}
+            onClick={() => setIsNewsDrawerOpen(true)}>
+            Подробнее
+          </AppButton>
         </Stack>
       </Stack>
     </Paper>
