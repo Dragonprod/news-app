@@ -16,11 +16,17 @@ const Title = styled(Typography)({
 });
 
 const Text = styled(Typography)({
+  maxWidth: '60%',
   fontFamily: 'inherit',
   fontWeight: 400,
   fontSize: '14px',
   lineHeight: '16px',
   color: '#25222C',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 2,
 });
 
 export default function NewsCard({ news }) {
@@ -29,6 +35,7 @@ export default function NewsCard({ news }) {
       <Stack direction='row' sx={{ gap: '12px', m: 2 }}>
         {news.categories.map(category => (
           <Chip
+            key={category.name}
             label={category.name}
             sx={{
               color: '#fff',
