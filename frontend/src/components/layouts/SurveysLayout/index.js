@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/system';
 import React from 'react';
 import TabButton from '../../elements/buttons/TabButton';
-import SurveysGroup from '../../modules/groups/SurveysGroup';
+import NewsGroup from '../../modules/groups/NewsGroup';
 
 const testCategories = [
   {
@@ -61,7 +61,7 @@ export default function SurveysLayout() {
           </TabButton>
         ))}
       </Stack>
-      <SurveysGroup />
+      <NewsGroup />
     </Stack>
   );
 }
