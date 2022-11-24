@@ -67,7 +67,7 @@ export default function NewsDrawer({ open, onClose, news = testNews }) {
 
   return (
     <BaseDrawer open={open} onClose={onClose}>
-      <Stack sx={{ maxWidth: '684px', p: 4, gap: '32px' }}>
+      <Stack sx={{ width: '684px', p: 4, gap: '32px' }}>
         <Title component='h2'>{news.title}</Title>
         <Stack sx={{ gap: '16px' }}>
           <CardMedia
