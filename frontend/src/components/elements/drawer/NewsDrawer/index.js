@@ -4,6 +4,7 @@ import React from 'react';
 import TagChip from '../../chips/TagChip';
 import BaseDrawer from '../BaseDrawer';
 import { styled } from '@mui/material/styles';
+import CommentCard from '../../cards/CommentCard';
 
 const Title = styled(Typography)({
   maxWidth: '440px',
@@ -74,7 +75,7 @@ export default function NewsDrawer({ open, onClose }) {
           <Title component='h2'>Комментарии</Title>
           <Stack>
             {['a', 'b'].map(img => (
-              <div key={img}>comment</div>
+              <CommentCard key={img} />
             ))}
           </Stack>
         </Stack>
