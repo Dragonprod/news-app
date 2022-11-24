@@ -33,8 +33,6 @@ import {
 import { Stack } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
-import AddSurveyModal from '../../modals/AddSurveyModal';
-import EditSurveyModal from '../../modals/EditSurveyModal';
 
 const rows = [
   {
