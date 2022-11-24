@@ -1,6 +1,6 @@
 import { CardMedia, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import React from 'react';
+import React, { useState } from 'react';
 import TagChip from '../../chips/TagChip';
 import BaseDrawer from '../BaseDrawer';
 import { styled } from '@mui/material/styles';
@@ -32,11 +32,11 @@ const testNews = {
     },
     {
       id: 1,
-      src: 'https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Bus_Stops_2_curitiba_brasil.jpg/1200px-Bus_Stops_2_curitiba_brasil.jpg',
     },
     {
       id: 2,
-      src: 'https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp',
+      src: 'https://www.streetpark.eu/wp-content/uploads/compress-images/2018/10/streetpark-zastavkovy-pristresek-FRAMEO-ZPF602-01.jpg',
     },
   ],
   categories: [{ name: 'Политика' }, { name: 'Экономика' }],
@@ -58,6 +58,12 @@ const testNews = {
 };
 
 export default function NewsDrawer({ open, onClose, news = testNews }) {
+  const [selectedPhoto, setSelectedPhoto] = useState(news.attachments[0]);
+
+  const handleSelectPhoto = img => {
+    setSelectedPhoto(img);
+  };
+
   return (
     <BaseDrawer open={open} onClose={onClose}>
       <Stack sx={{ maxWidth: '684px', p: 4, gap: '32px' }}>
@@ -68,19 +74,28 @@ export default function NewsDrawer({ open, onClose, news = testNews }) {
           <CardMedia
             component='img'
             height='360'
-            image=''
+            image={selectedPhoto.src}
             alt='bus stop'
             sx={{ borderRadius: '12px' }}
           />
           <Stack direction='row' sx={{ gap: '12px' }}>
             {testNews.attachments.map(img => (
               <img
+                onClick={() => handleSelectPhoto(img)}
                 key={img.id}
                 src={img.src}
                 width={60}
                 height={48}
                 alt='news'
-                style={{ borderRadius: '4px' }}
+                style={{
+                  borderRadius: '4px',
+                  outline: '2px solid transparent',
+                  outlineColor:
+                    selectedPhoto.id === img.id
+                      ? 'var(--color-primary)'
+                      : 'transparent',
+                  cursor: 'pointer',
+                }}
               />
             ))}
           </Stack>
