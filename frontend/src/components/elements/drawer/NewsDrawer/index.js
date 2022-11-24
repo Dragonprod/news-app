@@ -23,7 +23,41 @@ const Text = styled(Typography)({
   color: '#25222C',
 });
 
-export default function NewsDrawer({ open, onClose }) {
+const testNews = {
+  id: 0,
+  attachments: [
+    {
+      id: 0,
+      src: 'https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp',
+    },
+    {
+      id: 1,
+      src: 'https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp',
+    },
+    {
+      id: 2,
+      src: 'https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp',
+    },
+  ],
+  categories: [{ name: 'Политика' }, { name: 'Экономика' }],
+  text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
+  comments: [
+    {
+      id: 0,
+      name: 'Имя',
+      surname: 'Фамилия',
+      text: ' За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень.',
+    },
+    {
+      id: 1,
+      name: 'Имя',
+      surname: 'Фамилия',
+      text: ' За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень.',
+    },
+  ],
+};
+
+export default function NewsDrawer({ open, onClose, news = testNews }) {
   return (
     <BaseDrawer open={open} onClose={onClose}>
       <Stack sx={{ maxWidth: '684px', p: 4, gap: '32px' }}>
@@ -34,18 +68,18 @@ export default function NewsDrawer({ open, onClose }) {
           <CardMedia
             component='img'
             height='360'
-            image='https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp'
+            image=''
             alt='bus stop'
             sx={{ borderRadius: '12px' }}
           />
           <Stack direction='row' sx={{ gap: '12px' }}>
-            {['a', 'b'].map(img => (
+            {testNews.attachments.map(img => (
               <img
-                key={img}
-                src='https://img.artlebedev.ru/everything_files/images/6034/ostanovkus6-1200.jpg.webp'
+                key={img.id}
+                src={img.src}
                 width={60}
                 height={48}
-                alt={img}
+                alt='news'
                 style={{ borderRadius: '4px' }}
               />
             ))}
@@ -57,25 +91,13 @@ export default function NewsDrawer({ open, onClose }) {
               <TagChip key={category} label={category} />
             ))}
           </Stack>
-          <Text>
-            За последние 7 лет я создал самый передовой в мире разговорный ИИ с
-            открытым доменом для Replika - чат-бота №1 в США с более чем 10
-            миллионами пользователей. В начале этого года я покинул Replika,
-            чтобы вывести последние достижения в области разговорного ИИ на
-            новый уровень. Наше новое приложение Botify позволяет пользователям
-            создавать фотореалистичные цифровые персоны для увлекательных бесед.
-            Для каждой цифровой персоны можно настроить индивидуальный персонаж
-            и таким образом создать уникальную личность любого человека. Хотите
-            поговорить с Маском о колонизации Марса? Может быть, вы хотите
-            спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в
-            Botify.
-          </Text>
+          <Text>{news.text}</Text>
         </Stack>
         <Stack sx={{ gap: '32px' }}>
           <Title component='h2'>Комментарии</Title>
           <Stack sx={{ gap: '24px' }}>
-            {['a', 'b'].map(img => (
-              <CommentCard key={img} />
+            {news.comments.map(comment => (
+              <CommentCard key={comment.id} comment={comment} />
             ))}
           </Stack>
         </Stack>
