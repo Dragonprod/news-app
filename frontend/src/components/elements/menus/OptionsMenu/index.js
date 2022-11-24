@@ -1,9 +1,12 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { ListItemIcon, Menu, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { MainContext } from '../../../../context/MainContextProvider';
 
 export default function OptionsMenu({ anchorEl, open, handleClose, onEdit }) {
+  const { setIsNewsDrawerOpen } = useContext(MainContext);
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -40,7 +43,7 @@ export default function OptionsMenu({ anchorEl, open, handleClose, onEdit }) {
       }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-      <MenuItem onClick={onEdit}>
+      <MenuItem onClick={() => setIsNewsDrawerOpen(true)}>
         <ListItemIcon>
           <EditIcon fontSize='small' />
         </ListItemIcon>

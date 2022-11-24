@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -243,20 +243,20 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function NewsTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('subject');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('subject');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [anchorEl, setAnchorEl] = useState(null);
   const openOptionsMenu = Boolean(anchorEl);
-  const [category, setCategory] = React.useState('');
+  const [category, setCategory] = useState('');
 
-  const [openAddSurveyModal, setOpenAddSurveyModal] = React.useState(false);
+  const [openAddSurveyModal, setOpenAddSurveyModal] = useState(false);
   const handleOpenAddSurveyModal = () => setOpenAddSurveyModal(true);
   const handleCloseAddSurveyModal = () => setOpenAddSurveyModal(false);
 
-  const [openEditSurveyModal, setOpenEditSurveyModal] = React.useState(false);
+  const [openEditSurveyModal, setOpenEditSurveyModal] = useState(false);
   const handleOpenEditSurveyModal = () => setOpenEditSurveyModal(true);
   const handleCloseEditSurveyModal = () => setOpenEditSurveyModal(false);
 
@@ -491,14 +491,6 @@ export default function NewsTable() {
         open={openOptionsMenu}
         handleClose={handleCloseOptionsMenu}
         onEdit={handleOpenEditSurveyModal}
-      />
-      <AddSurveyModal
-        open={openAddSurveyModal}
-        onClose={handleCloseAddSurveyModal}
-      />
-      <EditSurveyModal
-        open={openEditSurveyModal}
-        onClose={handleCloseEditSurveyModal}
       />
     </>
   );
