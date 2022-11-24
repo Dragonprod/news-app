@@ -1,0 +1,77 @@
+import { Stack } from '@mui/system';
+import React, { useContext } from 'react';
+import { MainContext } from '../../../context/MainContextProvider';
+import TabButton from '../../elements/buttons/TabButton';
+import NewsDrawer from '../../elements/drawer/NewsDrawer';
+import NewsGroup from '../../modules/groups/NewsGroup';
+
+const testCategories = [
+  {
+    name: 'Политика',
+  },
+  {
+    name: 'Экономика',
+  },
+  {
+    name: 'Крипто',
+  },
+  {
+    name: 'Природа',
+  },
+  {
+    name: 'История',
+  },
+  {
+    name: 'Путешествия',
+  },
+  {
+    name: 'Программирование',
+  },
+  {
+    name: 'Техника',
+  },
+  {
+    name: 'Спорт',
+  },
+  {
+    name: 'IT',
+  },
+  {
+    name: 'Культура',
+  },
+];
+
+export default function NewsLayout() {
+  const { isNewsDrawerOpen, setIsNewsDrawerOpen } = useContext(MainContext);
+
+  return (
+    <>
+      <Stack sx={{ gap: '32px', m: '64px auto', maxWidth: 'var(--max-width)' }}>
+        <Stack
+          direction='row'
+          sx={{
+            gap: '32px',
+            m: '0 auto',
+            maxWidth: '100%',
+            overflowX: 'auto',
+            pb: 1,
+
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
+          }}>
+          {testCategories.map(category => (
+            <TabButton key={category.name} sx={{ flexShrink: 0 }}>
+              {category.name}
+            </TabButton>
+          ))}
+        </Stack>
+        <NewsGroup />
+      </Stack>
+      <NewsDrawer
+        open={isNewsDrawerOpen}
+        onClose={() => setIsNewsDrawerOpen(false)}
+      />
+    </>
+  );
+}
