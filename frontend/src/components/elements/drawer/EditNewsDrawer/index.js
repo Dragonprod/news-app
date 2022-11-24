@@ -1,30 +1,35 @@
-import { CardMedia, Typography } from '@mui/material';
+import { CardMedia, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TagChip from '../../chips/TagChip';
 import BaseDrawer from '../BaseDrawer';
 import { styled } from '@mui/material/styles';
-import CommentCard from '../../cards/CommentCard';
+import AppButton from '../../buttons/AppButton';
+import { MainContext } from '../../../../context/MainContextProvider';
 
-const Title = styled(Typography)({
-  maxWidth: '440px',
-  fontFamily: 'inherit',
-  fontWeight: 700,
-  fontSize: '20px',
-  lineHeight: '22px',
-  color: '#25222C',
+const TitleInput = styled(TextField)({
+  '& input': {
+    fontFamily: 'inherit',
+    fontWeight: 700,
+    fontSize: '20px',
+    lineHeight: '22px',
+    color: '#25222C',
+  },
 });
 
-const Text = styled(Typography)({
-  fontFamily: 'inherit',
-  fontWeight: 400,
-  fontSize: '14px',
-  lineHeight: '16px',
-  color: '#25222C',
+const TextInput = styled(TextField)({
+  '& input': {
+    fontFamily: 'inherit',
+    fontWeight: 400,
+    fontSize: '14px',
+    lineHeight: '16px',
+    color: '#25222C',
+  },
 });
 
 const testNews = {
   id: 0,
+  title: 'Обогреваемые остановки наземного транспорта',
   attachments: [
     {
       id: 0,
@@ -59,17 +64,42 @@ const testNews = {
 
 export default function EditNewsDrawer({ open, onClose, news = testNews }) {
   const [selectedPhoto, setSelectedPhoto] = useState(news.attachments[0]);
+  const [title, setTitle] = useState(news.title);
+  const [text, setText] = useState(news.text);
+  const { setIsEditDrawerOpen } = useContext(MainContext);
+
+  const handleChangeTitle = e => {
+    setTitle(e.target.value);
+  };
+
+  const handleChangeText = e => {
+    setText(e.target.value);
+  };
 
   const handleSelectPhoto = img => {
     setSelectedPhoto(img);
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    console.log({ title, text });
+
+    setIsEditDrawerOpen(false);
+  };
+
   return (
     <BaseDrawer open={open} onClose={onClose}>
-      <Stack sx={{ maxWidth: '684px', p: 4, gap: '32px' }}>
-        <Title component='h2'>
-          Обогреваемые остановки наземного транспорта EDIT
-        </Title>
+      <Stack
+        component='form'
+        onSubmit={handleSubmit}
+        sx={{ width: '694px', p: 4, gap: '32px' }}>
+        <TitleInput
+          value={title}
+          onChange={handleChangeTitle}
+          placeholder='Заголовок'
+          variant='outlined'
+        />
         <Stack sx={{ gap: '16px' }}>
           <CardMedia
             component='img'
@@ -106,16 +136,24 @@ export default function EditNewsDrawer({ open, onClose, news = testNews }) {
               <TagChip key={category} label={category} />
             ))}
           </Stack>
-          <Text>{news.text}</Text>
+          <TextInput
+            value={text}
+            onChange={handleChangeText}
+            placeholder='Текст'
+            variant='outlined'
+            multiline
+            rows={11}>
+            {news.text}
+          </TextInput>
         </Stack>
-        <Stack sx={{ gap: '32px' }}>
-          <Title component='h2'>Комментарии</Title>
-          <Stack sx={{ gap: '24px' }}>
-            {news.comments.map(comment => (
-              <CommentCard key={comment.id} comment={comment} />
-            ))}
-          </Stack>
-        </Stack>
+        <AppButton
+          type='submit'
+          sx={{
+            p: '12px 32px',
+            width: 'fit-content',
+          }}>
+          Сохранить
+        </AppButton>
       </Stack>
     </BaseDrawer>
   );
