@@ -250,14 +250,6 @@ export default function NewsTable() {
   const openOptionsMenu = Boolean(anchorEl);
   const [category, setCategory] = useState('');
 
-  const [openAddSurveyModal, setOpenAddSurveyModal] = useState(false);
-  const handleOpenAddSurveyModal = () => setOpenAddSurveyModal(true);
-  const handleCloseAddSurveyModal = () => setOpenAddSurveyModal(false);
-
-  const [openEditSurveyModal, setOpenEditSurveyModal] = useState(false);
-  const handleOpenEditSurveyModal = () => setOpenEditSurveyModal(true);
-  const handleCloseEditSurveyModal = () => setOpenEditSurveyModal(false);
-
   const handleChangeCategory = event => {
     setCategory(event.target.value);
   };
@@ -488,7 +480,6 @@ export default function NewsTable() {
         anchorEl={anchorEl}
         open={openOptionsMenu}
         handleClose={handleCloseOptionsMenu}
-        onEdit={handleOpenEditSurveyModal}
       />
     </>
   );
