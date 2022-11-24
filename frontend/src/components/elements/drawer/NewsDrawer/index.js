@@ -25,6 +25,7 @@ const Text = styled(Typography)({
 
 const testNews = {
   id: 0,
+  title: 'Обогреваемые остановки наземного транспорта',
   attachments: [
     {
       id: 0,
@@ -67,9 +68,7 @@ export default function NewsDrawer({ open, onClose, news = testNews }) {
   return (
     <BaseDrawer open={open} onClose={onClose}>
       <Stack sx={{ maxWidth: '684px', p: 4, gap: '32px' }}>
-        <Title component='h2'>
-          Обогреваемые остановки наземного транспорта
-        </Title>
+        <Title component='h2'>{news.title}</Title>
         <Stack sx={{ gap: '16px' }}>
           <CardMedia
             component='img'
