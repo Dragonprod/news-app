@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { MainContext } from '../../../../context/MainContextProvider';
 
 export default function OptionsMenu({ anchorEl, open, handleClose, onEdit }) {
-  const { setIsNewsDrawerOpen } = useContext(MainContext);
+  const { setIsEditDrawerOpen } = useContext(MainContext);
 
   return (
     <Menu
@@ -43,7 +43,7 @@ export default function OptionsMenu({ anchorEl, open, handleClose, onEdit }) {
       }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-      <MenuItem onClick={() => setIsNewsDrawerOpen(true)}>
+      <MenuItem onClick={() => setIsEditDrawerOpen(true)}>
         <ListItemIcon>
           <EditIcon fontSize='small' />
         </ListItemIcon>
