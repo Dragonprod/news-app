@@ -73,7 +73,7 @@ export default function NewsDrawer({ open, onClose }) {
         </Stack>
         <Stack sx={{ gap: '32px' }}>
           <Title component='h2'>Комментарии</Title>
-          <Stack>
+          <Stack sx={{ gap: '24px' }}>
             {['a', 'b'].map(img => (
               <CommentCard key={img} />
             ))}
