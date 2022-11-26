@@ -20,7 +20,6 @@ class UserCreate(UserBase):
 
 class UserGet(UserBase):
     guid: UUID4 = Field(description="Уникальный идентификатор пользователя")
-    points: int = Field(description="Баллы пользователя")
     is_deleted: bool = Field(False, description="Активен ли пользователь")
     created_at: datetime = Field(description="Время создания пользователя")
     updated_at: datetime = Field(description="Время последнего обновления пользователя")
