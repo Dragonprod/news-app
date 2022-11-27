@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import feedparser
 from fastapi import HTTPException, Response
+from loguru import logger
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import NewsCreate, NewsGet, NewsPatch
-from app.repositories import NewsRepository
+from app.models import NewsCreate, NewsGet, NewsPatch, CategoryCreate, MediaCreate
+from app.repositories import NewsRepository, CategoryRepository
 
 
 class NewsService:
@@ -60,3 +62,51 @@ class NewsService:
         if news is None:
             raise HTTPException(404, "Новость не найдена")
         return NewsGet.from_orm(news)
+
+    @staticmethod
+    async def parse(db: AsyncSession) -> Response(status_code=204):
+        rbc_url = "http://static.feed.rbc.ru/rbc/logical/footer/news.rss"
+        lenta_url = "https://lenta.ru/rss/news"
+        placeholder = "https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png"
+        feed = feedparser.parse(rbc_url)
+        for item in feed["items"]:
+            category = await CategoryRepository.get_by_name(db, item["category"])
+            if category is None:
+                category = await CategoryRepository.create(db, CategoryCreate(name=item["category"]))
+            await NewsRepository.create(
+                db,
+                NewsCreate(
+                    name=item["title"],
+                    description=item["description"],
+                    media=[
+                        MediaCreate(link=item["rbc_news_url"] if "rbc_news_url" in item else placeholder),
+                        MediaCreate(link=placeholder),
+                    ],
+                    categories=[category.guid],
+                ),
+            )
+        feed = feedparser.parse(lenta_url)
+        for item in feed["items"]:
+            category = await CategoryRepository.get_by_name(db, item["category"])
+            if category is None:
+                category = await CategoryRepository.create(db, CategoryCreate(name=item["tags"][0]["term"]))
+
+            media_link = placeholder
+            for link in item["links"]:
+                if link["rel"] == "enclosure":
+                    media_link = link["href"]
+                    break
+
+            await NewsRepository.create(
+                db,
+                NewsCreate(
+                    name=item["title"],
+                    description=item["summary"],
+                    media=[
+                        MediaCreate(link=media_link),
+                        MediaCreate(link=placeholder),
+                    ],
+                    categories=[category.guid],
+                ),
+            )
+        return Response(status_code=204)

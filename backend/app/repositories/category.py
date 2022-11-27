@@ -31,6 +31,11 @@ class CategoryRepository:
         return res.scalar()
 
     @staticmethod
+    async def get_by_name(db: AsyncSession, name: str) -> Category:
+        res = await db.execute(select(Category).where(Category.name == name).limit(1))
+        return res.scalar()
+
+    @staticmethod
     async def update(db: AsyncSession, guid: UUID4, model: CategoryCreate) -> Category:
         category = await CategoryRepository.get(db, guid)
 

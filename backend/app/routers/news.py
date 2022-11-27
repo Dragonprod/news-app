@@ -142,3 +142,17 @@ async def dislike(
     news_service: NewsService = Depends(),
 ):
     return await news_service.dislike(db=db, guid=id)
+
+
+@router.post(
+    "/news/parse",
+    response_description="Успешный парсинг новостей",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="Спарсить новости",
+    summary="Парсинг новостей",
+)
+async def parse(
+    db: AsyncSession = Depends(get_session),
+    news_service: NewsService = Depends(),
+):
+    return await news_service.parse(db=db)
