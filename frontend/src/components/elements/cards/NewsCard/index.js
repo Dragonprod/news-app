@@ -8,6 +8,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TagChip from '../../chips/TagChip';
 import { MainContext } from '../../../../context/MainContextProvider';
+import API from '../../../../api';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -32,10 +33,32 @@ const Text = styled(Typography)({
 });
 
 export default function NewsCard({ news }) {
-  const { isNewsDrawerOpen, setIsNewsDrawerOpen } = useContext(MainContext);
+  const { setIsNewsDrawerOpen, setNewsSelected } = useContext(MainContext);
   const [isLiked, setIsLiked] = useState(false);
 
-  const handleLike = () => setIsLiked(prev => !prev);
+  const handleLike = e => {
+    const like = async () => {
+      await API.post(`/news/like/${news.guid}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+    };
+    const dislike = async () => {
+      await API.post(`/news/dislike/${news.guid}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+    };
+
+    if (isLiked) {
+      news.likes -= 1;
+      setIsLiked(false);
+      dislike();
+    } else {
+      news.likes += 1;
+      setIsLiked(true);
+      like();
+    }
+  }
+
+  const handleNewsSelected = e => {
+    setNewsSelected(news);
+    setIsNewsDrawerOpen(true);
+  }
 
   return (
     <Paper elevation={0} sx={{ borderRadius: '16px' }}>
@@ -45,21 +68,21 @@ export default function NewsCard({ news }) {
         ))}
       </Stack>
       <Stack sx={{ gap: '24px', margin: '0 16px 24px' }}>
-        <Title>{news.title}</Title>
-        <Text>{news.text}</Text>
+        <Title>{news.name}</Title>
+        <Text>{news.description}</Text>
       </Stack>
       <Stack direction='row' justifyContent='space-between'>
         <Stack direction='row' alignItems='center' sx={{ gap: '24px', m: 2 }}>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
             <ChatBubbleOutlineIcon />
-            {news.commentsAmount}
+            {news.comments.length}
           </Stack>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
             <FavoriteBorderIcon />
-            {news.likesAmount}
+            {news.likes}
           </Stack>
           <Stack direction='row' alignItems='center' sx={{ gap: '12px' }}>
-            {news.date}
+            {news.created_at.split('T')[0]}
           </Stack>
         </Stack>
         <Stack direction='row' alignItems='center' sx={{ gap: '24px' }}>
@@ -75,7 +98,7 @@ export default function NewsCard({ news }) {
           </Button>
           <AppButton
             sx={{ borderRadius: '16px 0', p: 2 }}
-            onClick={() => setIsNewsDrawerOpen(true)}>
+            onClick={handleNewsSelected}>
             Подробнее
           </AppButton>
         </Stack>

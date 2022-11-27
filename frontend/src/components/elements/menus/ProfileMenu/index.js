@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import AppButton from '../../buttons/AppButton';
 import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
+import API from '../../../../api';
 
 const Title = styled(Typography)({
   fontFamily: 'inherit',
@@ -35,6 +36,15 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { state } = useLocation();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getMyData = async () => {
+      const result = await API.get(`/user/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+      setUser(result.data);
+    };
+    getMyData();
+  }, [])
 
   const handleLogout = () => {
     logout().then(() => {
@@ -84,11 +94,11 @@ export default function ProfileMenu({ anchorEl, open, handleClose }) {
       <Stack sx={{ gap: '10px' }}>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Имя</Point>
-          <Data>Иван Иванович Иванов</Data>
+          <Data>{user.last_name} {user.first_name} {user.middle_name}</Data>
         </Stack>
         <Stack sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr' }}>
           <Point>Почта</Point>
-          <Data>ivanov.ivan@mail.ru</Data>
+          <Data>{user.email}</Data>
         </Stack>
       </Stack>
       <AppButton onClick={handleLogout} sx={{ p: 1.5, marginTop: '30px' }}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -33,60 +33,8 @@ import {
 import { Stack } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
-
-const rows = [
-  {
-    id: 0,
-    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
-    title: 'Обогреваемые остановки наземного транспорта',
-    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
-    commentsAmount: 10,
-    likesAmount: 10349,
-    date: '23.11.2022',
-    attachments: [
-      { url: 'img.png' },
-      { url: 'img2.png' },
-      { url: 'img3.png' },
-      { url: 'img4.png' },
-      { url: 'img5.png' },
-      { url: 'img6.png' },
-    ],
-  },
-  {
-    id: 1,
-    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
-    title: 'Обогреваемые остановки наземного транспорта',
-    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
-    commentsAmount: 10,
-    likesAmount: 10349,
-    date: '23.11.2021',
-    attachments: [
-      { url: 'img.png' },
-      { url: 'img2.png' },
-      { url: 'img3.png' },
-      { url: 'img4.png' },
-      { url: 'img5.png' },
-      { url: 'img6.png' },
-    ],
-  },
-  {
-    id: 2,
-    categories: [{ name: 'Политика' }, { name: 'Экономика' }],
-    title: 'Обогреваемые остановки наземного транспорта',
-    text: 'За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей. В начале этого года я покинул Replika, чтобы вывести последние достижения в области разговорного ИИ на новый уровень. Наше новое приложение Botify позволяет пользователям создавать фотореалистичные цифровые персоны для увлекательных бесед. Для каждой цифровой персоны можно настроить индивидуальный персонаж и таким образом создать уникальную личность любого человека. Хотите поговорить с Маском о колонизации Марса? Может быть, вы хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать все это в Botify.',
-    commentsAmount: 10,
-    likesAmount: 10349,
-    date: '23.11.2020',
-    attachments: [
-      { url: 'img.png' },
-      { url: 'img2.png' },
-      { url: 'img3.png' },
-      { url: 'img4.png' },
-      { url: 'img5.png' },
-      { url: 'img6.png' },
-    ],
-  },
-];
+import API from '../../../../api';
+import { MainContext } from '../../../../context/MainContextProvider';
 
 const headCells = [
   {
@@ -240,7 +188,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function NewsTable() {
+export default function NewsTable({ rows }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('subject');
   const [selected, setSelected] = useState([]);
@@ -249,6 +197,16 @@ export default function NewsTable() {
   const [anchorEl, setAnchorEl] = useState(null);
   const openOptionsMenu = Boolean(anchorEl);
   const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const { setNewsSelected } = useContext(MainContext);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const result = await API.get(`/category`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } });
+      setCategories(result.data);
+    };
+    getCategories();
+  }, []);
 
   const handleChangeCategory = event => {
     setCategory(event.target.value);
@@ -334,10 +292,9 @@ export default function NewsTable() {
                 value={category}
                 label='Категория'
                 onChange={handleChangeCategory}>
-                <MenuItem value={10}>Транспорт</MenuItem>
-                <MenuItem value={20}>Общество</MenuItem>
-                <MenuItem value={30}>Город</MenuItem>
-                <MenuItem value={30}>Образование</MenuItem>
+                {categories.map(category => (
+                  <MenuItem value={category.guid}>{category.name}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
@@ -369,17 +326,17 @@ export default function NewsTable() {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row.date);
+                    const isItemSelected = isSelected(row.guid);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                       <TableRow
                         hover
-                        onClick={event => handleClick(event, row.date)}
+                        onClick={event => handleClick(event, row.guid)}
                         role='checkbox'
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.date}
+                        key={row.guid}
                         selected={isItemSelected}>
                         <TableCell padding='checkbox'>
                           <Checkbox
@@ -395,7 +352,7 @@ export default function NewsTable() {
                           id={labelId}
                           scope='row'
                           padding='none'>
-                          {row.date}
+                          {row.created_at.split('T')[0]}
                         </TableCell>
                         <TableCell
                           sx={{
@@ -404,7 +361,7 @@ export default function NewsTable() {
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                           }}>
-                          {row.title}
+                          {row.name}
                         </TableCell>
                         <TableCell
                           sx={{
@@ -413,7 +370,7 @@ export default function NewsTable() {
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                           }}>
-                          {row.text}
+                          {row.description}
                         </TableCell>
                         <TableCell>
                           <div
@@ -424,7 +381,7 @@ export default function NewsTable() {
                               gap: '8px',
                             }}>
                             {row.categories.map(category => (
-                              <Chip key={category.name} label={category.name} />
+                              <Chip key={category.guid} label={category.name} />
                             ))}
                           </div>
                         </TableCell>
@@ -437,15 +394,16 @@ export default function NewsTable() {
                               textTransform: 'none',
                               color: 'var(--color-primary)',
                             }}>
-                            {row.attachments.length} фото
+                            {row.media.length} фото
                           </Button>
                         </TableCell>
-                        <TableCell>{row.commentsAmount} комментариев</TableCell>
-                        <TableCell>{row.likesAmount} человек</TableCell>
+                        <TableCell>{row.comments.length} комментариев</TableCell>
+                        <TableCell>{row.likes} человек</TableCell>
                         <TableCell>
                           <IconButton
                             onClick={e => {
                               e.stopPropagation();
+                              setNewsSelected(row);
                               setAnchorEl(e.currentTarget);
                             }}>
                             <MoreVertIcon />
