@@ -1,20 +1,31 @@
 from typing import List
 
 from fastapi import HTTPException
+from loguru import logger
 from pydantic import UUID4
 from sqlalchemy import BigInteger, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql.expression import cast
 
-from app.database.tables import News
+from app.database.tables import News, Media
 from app.models import NewsCreate, NewsPatch
+from app.repositories.category import CategoryRepository
 
 
 class NewsRepository:
     @staticmethod
     async def create(db: AsyncSession, model: NewsCreate) -> News:
-        news = News(**model.dict(exclude_unset=True))
+        news = News(
+            name=model.name,
+            description=model.description,
+        )
+        for m in model.media:
+            media = Media(link=m.link)
+            news.media.append(media)
+        for c in model.categories:
+            category = await CategoryRepository.get(db, c)
+            news.categories.append(category)
         db.add(news)
         await db.commit()
         await db.refresh(news)
@@ -63,3 +74,29 @@ class NewsRepository:
     async def delete(db: AsyncSession, guid: UUID4) -> None:
         await db.execute(update(News).where(News.guid == guid).values(is_deleted=True))
         await db.commit()
+
+    @staticmethod
+    async def like(db: AsyncSession, guid: UUID4) -> News:
+        news = await NewsRepository.get(db, guid)
+
+        if news is None:
+            raise HTTPException(404, "Новость не найдена")
+
+        await db.execute(update(News).where(News.guid == guid).values(likes=News.likes + 1))
+        await db.commit()
+        await db.refresh(news)
+
+        return news
+
+    @staticmethod
+    async def dislike(db: AsyncSession, guid: UUID4) -> News:
+        news = await NewsRepository.get(db, guid)
+
+        if news is None:
+            raise HTTPException(404, "Новость не найдена")
+
+        await db.execute(update(News).where(News.guid == guid).values(likes=News.likes - 1))
+        await db.commit()
+        await db.refresh(news)
+
+        return news

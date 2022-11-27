@@ -110,3 +110,35 @@ async def delete(
     news_service: NewsService = Depends(),
 ):
     return await news_service.delete(db=db, guid=id)
+
+
+@router.post(
+    "/news/like/{id}",
+    response_model=NewsGet,
+    response_description="Успешное обновление новости",
+    status_code=status.HTTP_200_OK,
+    description="Лайкнуть новость по её id",
+    summary="Лайк новости по id",
+)
+async def like(
+    id: UUID4 = Path(None, description="Id новости"),
+    db: AsyncSession = Depends(get_session),
+    news_service: NewsService = Depends(),
+):
+    return await news_service.like(db=db, guid=id)
+
+
+@router.post(
+    "/news/dislike/{id}",
+    response_model=NewsGet,
+    response_description="Успешное обновление новости",
+    status_code=status.HTTP_200_OK,
+    description="Дизлайкнуть новость по её id",
+    summary="Дизлайк новости по id",
+)
+async def dislike(
+    id: UUID4 = Path(None, description="Id новости"),
+    db: AsyncSession = Depends(get_session),
+    news_service: NewsService = Depends(),
+):
+    return await news_service.dislike(db=db, guid=id)

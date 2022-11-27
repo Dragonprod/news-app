@@ -69,6 +69,8 @@ endpoint_message = {
     ("PUT", "/api/news/{id}"): "Ошибка изменения новости по id",
     ("PATCH", "/api/news/{id}"): "Ошибка частичного изменения новости по id",
     ("DELETE", "/api/news/{id}"): "Ошибка удаления новости по id",
+    ("POST", "/api/news/like/{id}"): "Ошибка лайка новости по id",
+    ("POST", "/api/news/dislike/{id}"): "Ошибка дизлайка новости по id",
 }
 
 

@@ -46,3 +46,17 @@ class NewsService:
     async def delete(db: AsyncSession, guid: UUID4) -> Response(status_code=204):
         await NewsRepository.delete(db, guid)
         return Response(status_code=204)
+
+    @staticmethod
+    async def like(db: AsyncSession, guid: UUID4) -> NewsGet:
+        news = await NewsRepository.like(db, guid)
+        if news is None:
+            raise HTTPException(404, "Новость не найдена")
+        return NewsGet.from_orm(news)
+
+    @staticmethod
+    async def dislike(db: AsyncSession, guid: UUID4) -> NewsGet:
+        news = await NewsRepository.dislike(db, guid)
+        if news is None:
+            raise HTTPException(404, "Новость не найдена")
+        return NewsGet.from_orm(news)
