@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import UUID4, BaseModel, Field
 
-from app.models.category import CategoryCreate, CategoryGet
+from app.models.category import CategoryGet
 from app.models.comment import CommentGet
 from app.models.media import MediaCreate, MediaGet
 from app.models.utils import optional
@@ -15,7 +15,7 @@ class NewsBase(BaseModel):
 
 class NewsCreate(NewsBase):
     media: list[MediaCreate] = Field(description="Список медиа-файлов")
-    categories: list[CategoryCreate] = Field(description="Список категорий")
+    categories: list[UUID4] = Field(description="Список категорий")
 
 
 class NewsGet(NewsBase):

@@ -22,7 +22,6 @@ router = APIRouter(prefix=config.BACKEND_PREFIX, dependencies=[Depends(verify_ac
     status_code=status.HTTP_201_CREATED,
     description="Создать пользователя и вернуть его",
     summary="Создание пользователя",
-    # responses={},
 )
 async def create(
     model: UserCreate,
@@ -40,7 +39,6 @@ async def create(
     status_code=status.HTTP_200_OK,
     description="Получить пользователей всех студентов",
     summary="Получение всех пользователей",
-    # responses={},
 )
 async def get_all(
     db: AsyncSession = Depends(get_session),
@@ -59,7 +57,6 @@ async def get_all(
     status_code=status.HTTP_200_OK,
     description="Получить свои данные",
     summary="Получение своих данных",
-    # responses={},
 )
 async def get(
     user: UUID4 = Depends(get_user_from_access_token),
@@ -77,9 +74,8 @@ async def get(
     status_code=status.HTTP_200_OK,
     description="Получить пользователя по его id",
     summary="Получение пользователя по id",
-    # responses={},
 )
-async def get(
+async def get_me(
     id: UUID4 = Path(None, description="Id пользователя"),
     db: AsyncSession = Depends(get_session),
     users_service: UserService = Depends(),
@@ -95,9 +91,8 @@ async def get(
     status_code=status.HTTP_200_OK,
     description="Получить пользователя по его email",
     summary="Получение пользователя по email",
-    # responses={},
 )
-async def get(
+async def get_by_email(
     email: EmailStr = Path(None, description="Email пользователя"),
     db: AsyncSession = Depends(get_session),
     users_service: UserService = Depends(),
@@ -113,7 +108,6 @@ async def get(
     status_code=status.HTTP_200_OK,
     description="Изменить пользователя по его id (полное обновление модели)",
     summary="Изменение пользователя по id",
-    # responses={},
 )
 async def update(
     model: UserCreate,
@@ -132,7 +126,6 @@ async def update(
     status_code=status.HTTP_200_OK,
     description="Изменить пользователя по его id (частисно обновление модели)",
     summary="Изменение пользователя по id (только указанные поля будут изменены)",
-    # responses={},
 )
 async def patch(
     model: UserPatch,
@@ -149,7 +142,6 @@ async def patch(
     status_code=status.HTTP_204_NO_CONTENT,
     description="Удалить пользователя по его id",
     summary="Удаление пользователя по id",
-    # responses={},
 )
 async def delete(
     id: UUID4 = Path(None, description="Id пользователя"),
