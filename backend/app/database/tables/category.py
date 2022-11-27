@@ -1,9 +1,16 @@
 import uuid
 
-from sqlalchemy import Boolean, Column, DateTime, String, func
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Table, func
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.database.connection import Base
+
+news_category = Table(
+    "news_category",
+    Base.metadata,
+    Column("news_guid", UUID(as_uuid=True), ForeignKey("news.guid")),
+    Column("category_guid", UUID(as_uuid=True), ForeignKey("category.guid")),
+)
 
 
 class Category(Base):
