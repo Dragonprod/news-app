@@ -1,14 +1,13 @@
 from typing import List
 
 from fastapi import HTTPException
-from loguru import logger
 from pydantic import UUID4
 from sqlalchemy import BigInteger, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql.expression import cast
 
-from app.database.tables import News, Media
+from app.database.tables import Media, News
 from app.models import NewsCreate, NewsPatch
 from app.repositories.category import CategoryRepository
 
